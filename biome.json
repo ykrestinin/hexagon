@@ -1,0 +1,37 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!mock-app",
+      "!**/*.md",
+      "!package-lock.json",
+      "!test-results",
+      "!playwright-report",
+      "!blob-report"
+    ]
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": { "quoteStyle": "single", "trailingCommas": "all" }
+  },
+  "linter": {
+    "rules": {
+      "preset": "recommended",
+      "suspicious": { "noFocusedTests": "error", "noSkippedTests": "warn" },
+      "style": { "useImportType": "error", "noNonNullAssertion": "error" }
+    }
+  },
+  "plugins": ["./lint/no-css-locators.grit"],
+  "overrides": [
+    {
+      "includes": ["src/tests/**"],
+      "plugins": ["./lint/no-raw-locators-in-specs.grit"]
+    }
+  ],
+  "assist": { "actions": { "source": { "organizeImports": "on" } } }
+}

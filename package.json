@@ -1,0 +1,30 @@
+{
+  "name": "hexagon-subscription-qa-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright + TypeScript test framework for a B2B subscription shop (interview demo)",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:e2e": "playwright test --project=e2e --project=e2e-webkit",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:stability": "playwright test --repeat-each=3 --workers=4",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "check:test-cases": "node scripts/check-test-cases.ts --strict",
+    "verify": "npm run lint && npm run typecheck && npm run check:test-cases",
+    "report": "playwright show-report",
+    "start:sut": "node mock-app/server.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.4",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
+  }
+}
