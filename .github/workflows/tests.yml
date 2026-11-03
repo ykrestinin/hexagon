@@ -41,18 +41,14 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: blob-report-api
-          path: blob-report
-          retention-days: 3
+          name: playwright-report-api
+          path: playwright-report
+          retention-days: 14
 
   e2e:
-    name: e2e (shard ${{ matrix.shard }}/2)
+    name: e2e
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [1, 2]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -64,39 +60,10 @@ jobs:
       # Pull requests get the @smoke subset; main and nightly run the full UI regression.
       - run: >
           npx playwright test --project=e2e --project=e2e-webkit
-          --shard=${{ matrix.shard }}/2
           ${{ github.event_name == 'pull_request' && '--grep @smoke' || '' }}
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: blob-report-e2e-${{ matrix.shard }}
-          path: blob-report
-          retention-days: 3
-
-  report:
-    name: merge reports
-    if: ${{ !cancelled() }}
-    needs: [api, e2e]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
-      - uses: actions/download-artifact@v4
-        with:
-          pattern: blob-report-*
-          path: all-blob-reports
-          merge-multiple: true
-      - run: npx playwright merge-reports --reporter html,junit ./all-blob-reports
-        env:
-          PLAYWRIGHT_JUNIT_OUTPUT_NAME: junit.xml
-      - uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: |
-            playwright-report
-            junit.xml
+          name: playwright-report-e2e
+          path: playwright-report
           retention-days: 14

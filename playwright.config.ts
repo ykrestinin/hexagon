@@ -7,10 +7,7 @@ export default defineConfig({
   forbidOnly: E2E_CONFIG.isCI,
   retries: E2E_CONFIG.isCI ? 1 : 0,
   workers: E2E_CONFIG.isCI ? 4 : undefined,
-  // On CI each shard writes a blob report; the workflow merges them into one HTML report.
-  reporter: E2E_CONFIG.isCI
-    ? [['list'], ['blob'], ['junit', { outputFile: 'test-results/junit.xml' }]]
-    : [['list'], ['html', { open: 'never' }]],
+  reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: E2E_CONFIG.baseUrl,
     trace: 'retain-on-failure',
