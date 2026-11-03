@@ -26,27 +26,8 @@ jobs:
       - run: npm ci
       - run: npm run verify
 
-  api:
-    name: api
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
-      - run: npx playwright test --project=api
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report-api
-          path: playwright-report
-          retention-days: 14
-
-  e2e:
-    name: e2e
+  tests:
+    name: api + e2e
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -57,13 +38,11 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit
-      # Pull requests get the @smoke subset; main and nightly run the full UI regression.
-      - run: >
-          npx playwright test --project=e2e --project=e2e-webkit
-          ${{ github.event_name == 'pull_request' && '--grep @smoke' || '' }}
+      # One run of all projects, so API and UI results land in one HTML report.
+      - run: npx playwright test
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report-e2e
+          name: playwright-report
           path: playwright-report
           retention-days: 14
