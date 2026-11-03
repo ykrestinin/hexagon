@@ -11,7 +11,7 @@ Playwright with TypeScript, Biome for lint and format. Source code lives under `
 | Path | Purpose |
 | --- | --- |
 | `src/tests/<layer>/` | Specs (`*.spec.ts`); the folder selects the Playwright project: `api/` (no browser) or `e2e/` (Chromium, plus WebKit for `@smoke`) |
-| `src/pages/<section>/` | Page objects, one folder per app section (`catalog/` for `/`, `checkout/` for `/checkout`, `account/` for `/account`), plus the shared `BasePageObject` |
+| `src/pages/<section>/` | Page objects, one folder per app section (`catalog/` for `/`, `checkout/` for `/checkout`, `account/` for `/account`), plus the shared `BasePageObject`; layout shared by every page (the header) goes in `layout/` |
 | `src/pages/index.ts` | Barrel export for page objects |
 | `src/e2e-controls/` | Control wrappers built on Playwright locators |
 | `src/test-base/` | Shared typing for control options |
@@ -32,6 +32,7 @@ Reference implementations: [`src/tests/e2e/checkout.spec.ts`](src/tests/e2e/chec
 - File naming: `<page>-page.page-object.ts` without repeating the section (`checkout/checkout-page.page-object.ts`). A reusable part of a page (a table row) is a plain control file next to it (`account/invoice-row.ts`).
 - Constructor pattern: `super(page, null, "<root-test-id>")`.
 - Declare child controls as `readonly` fields and always pass `{ parent: this }`, so locators stay scoped to the page root.
+- Every page object exposes the shared `header` (`layout/app-header.ts`); use it for in-app navigation instead of `page.goto()`.
 - Page objects own navigation (`open()`) and wait for their root (`waitForLoad()`), so a spec never asserts on a page that has not rendered.
 - Export every new page object from `src/pages/index.ts` immediately after creating it.
 

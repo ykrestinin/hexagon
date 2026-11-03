@@ -217,8 +217,28 @@ const page = (title, body) => `<!doctype html><html lang="en"><head><meta charse
 button,a.button{display:inline-block;text-decoration:none;padding:8px 14px;border-radius:6px;border:1px solid #2a5bd7;background:#2a5bd7;color:#fff;cursor:pointer}
 button.secondary{background:#fff;color:#2a5bd7}label{display:block;margin:10px 0}
 input,select{padding:6px;width:100%;box-sizing:border-box}[role=alert]{color:#b42318}
-table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #eee;padding:6px;text-align:left}</style>
-</head><body>${body}</body></html>`;
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #eee;padding:6px;text-align:left}
+[hidden]{display:none!important}
+nav{display:flex;gap:8px;padding-bottom:12px;border-bottom:1px solid #d6dbe4}
+nav a.button[aria-current=page]{background:#fff;color:#2a5bd7}</style>
+</head><body>${header(title)}${body}</body></html>`;
+
+// Shared navigation. The account link appears once the browser knows the customer's organisation:
+// from the URL on the account page, or remembered from an earlier visit.
+const header = (title) => `<header><nav aria-label="Main" test-id="app-header">
+<a class="button" href="/" test-id="header-plans-link"${title === 'Plans' ? ' aria-current="page"' : ''}>Plans</a>
+<a class="button" href="/account" test-id="header-account-link" hidden${title === 'Account' ? ' aria-current="page"' : ''}>My account</a>
+</nav></header>
+<script>
+(() => {
+  let org = new URLSearchParams(location.search).get('org');
+  try { org ? localStorage.setItem('shop.org', org) : (org = localStorage.getItem('shop.org')); } catch {}
+  if (!org) return;
+  const link = document.querySelector('[test-id=header-account-link]');
+  link.href = '/account?org=' + encodeURIComponent(org);
+  link.hidden = false;
+})();
+</script>`;
 
 const shopHtml = () => page('Plans', `<main test-id="plans-page"><h1>Choose a plan</h1>
 ${Object.values(PLANS).map((p) => `<article class="card">

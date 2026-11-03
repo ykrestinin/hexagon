@@ -36,7 +36,7 @@ test-cases/               Gherkin scenarios with TC-IDs: the source of truth for
 src/
   tests/api/              business rules via API: lifecycle, billing & tax, plan changes, contract
   tests/e2e/              customer journeys in the browser, hybrid API-arrange / UI-verify tests
-  pages/<section>/        page objects (catalog, checkout, account) on top of BasePageObject
+  pages/<section>/        page objects (catalog, checkout, account, layout) on top of BasePageObject
   e2e-controls/           Button, Input, Select, Text, ControlCollection... wrappers that own waits and assertions
   steps/                  business actions spanning several page objects
   api/                    typed API client and domain model; the only place that knows endpoints
@@ -85,6 +85,7 @@ Scenarios live in `test-cases/<feature>.feature`. Each `Scenario` or `Scenario O
 | API contract | `api-contract.feature` | catalogue, 400/422/409 cases, re-subscribe after cancel |
 | Checkout (UI) | `checkout.feature` | buy, trial, reverse charge display, VAT error |
 | Self-service (UI) | `self-service.feature` | upgrade, cancel and keep, suspended state |
+| Navigation (UI) | `navigation.feature` | header links between catalogue and account, no account link for new visitors |
 
 ## What I would add on a real project
 

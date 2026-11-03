@@ -3,3 +3,4 @@ export { InvoiceRow } from './account/invoice-row';
 export { BasePageObject } from './base-page-object';
 export { PlansPage } from './catalog/plans-page.page-object';
 export { type CheckoutOrder, CheckoutPage } from './checkout/checkout-page.page-object';
+export { AppHeader } from './layout/app-header';
