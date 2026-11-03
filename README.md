@@ -48,7 +48,6 @@ lint/*.grit               lint rules that enforce the locator conventions
 examples/                 the same journey without controls and with raw locators, for comparison
 mock-app/server.mjs       system under test (in-memory)
 .github/workflows/        CI: static checks, API, sharded UI, merged report
-AGENTS.md                 conventions for humans and AI agents working on the suite
 ```
 
 ## Design decisions

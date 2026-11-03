@@ -1,4 +1,4 @@
-// Specs talk to the UI only through page objects and controls (AGENTS.md, "Usage In E2E Tests").
+// Specs talk to the UI only through page objects and controls.
 `$_.$method($...)` where {
   $method <: or {
     `getByTestId`,
@@ -10,5 +10,5 @@
     `$`,
     `$$`
   },
-  register_diagnostic(span=$method, message="Raw locator in a spec: route it through a page object or control (see AGENTS.md).", severity="error")
+  register_diagnostic(span=$method, message="Raw locator in a spec: route it through a page object or control.", severity="error")
 }

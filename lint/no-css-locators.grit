@@ -1,5 +1,5 @@
-// Page objects and controls locate by test-id or role, never by CSS/XPath (AGENTS.md, "Locator Strategy").
+// Page objects and controls locate by test-id or role, never by CSS/XPath.
 `$_.locator($selector)` where {
   $selector <: string(),
-  register_diagnostic(span=$selector, message="CSS/XPath locator: use a test-id or getByRole (see AGENTS.md).", severity="error")
+  register_diagnostic(span=$selector, message="CSS/XPath locator: use a test-id or getByRole.", severity="error")
 }
