@@ -23,6 +23,7 @@ npx playwright install chromium webkit
 | `npm run test:smoke` | `@smoke` subset, what a pull request runs |
 | `npm run test:stability` | whole suite 3× on 4 workers, to catch order and parallelism dependencies |
 | `npm run verify` | lint, typecheck, test-case registry check (no tests) |
+| `npm run example:locators` | demo: one journey with controls, with bare-locator page objects, and with raw XPath/CSS |
 | `npm run report` | open the HTML report with traces |
 | `npx playwright test --grep TC-CHK-001` | one test case |
 
@@ -44,6 +45,7 @@ src/
   test-data/              data factories and the billing oracle
 scripts/check-test-cases.ts   registry ↔ specs traceability check
 lint/*.grit               lint rules that enforce the locator conventions
+examples/                 the same journey without controls and with raw locators, for comparison
 mock-app/server.mjs       system under test (in-memory)
 .github/workflows/        CI: static checks, API, sharded UI, merged report
 AGENTS.md                 conventions for humans and AI agents working on the suite
@@ -59,7 +61,7 @@ AGENTS.md                 conventions for humans and AI agents working on the su
 | **Every test owns its data** | The `org` fixture creates a fresh organisation per test: no shared accounts, no ordering dependencies. Checked with `npm run test:stability`. |
 | **Billing rules as oracle** | Expected VAT and proration are computed from the spec (`src/test-data/billing.ts`), not copied from the app's output. |
 | **`test-id` as a UI contract** | Interactive elements and asserted values carry a `test-id`; display elements are found by role. No text-based locators, so copy changes and translations do not break tests. |
-| **Page objects and controls** | Specs never touch locators. Controls own waiting and assertions, page objects scope everything to their root. Enforced by lint rules, not only by review. |
+| **Page objects and controls** | Specs never touch locators. Controls own waiting and assertions, page objects scope everything to their root. Enforced by lint rules, not only by review. `examples/page-object-styles.spec.ts` shows the alternatives: page objects without controls, and raw XPath/CSS. |
 | **Traceable test cases** | Each test starts with the TC-ID of its Gherkin scenario, and `test.step()` names repeat the scenario lines, so a failing report reads like the test case. `npm run check:test-cases` derives coverage and fails on unknown IDs. |
 | **Tags, not folders, for scope** | `@smoke` runs on every pull request (and in WebKit); `main` and nightly run everything, sharded. |
 | **Debuggability** | Trace and screenshot on failure, merged HTML report and JUnit XML for CI and Xray import. |
@@ -83,6 +85,7 @@ Scenarios live in `test-cases/<feature>.feature`. Each `Scenario` or `Scenario O
 | Plan changes | `plan-changes.feature` | prorated upgrade, downgrade without negative invoice, stable license key |
 | Lifecycle | `subscription-lifecycle.feature` | trial → paid, trial cancel, renewals, cancel at period end, reactivation, dunning recovery, suspension |
 | API contract | `api-contract.feature` | catalogue, 400/422/409 cases, re-subscribe after cancel |
+| Catalogue (UI) | `catalog.feature` | every plan the shop sells is shown |
 | Checkout (UI) | `checkout.feature` | buy, trial, reverse charge display, VAT error |
 | Self-service (UI) | `self-service.feature` | upgrade, cancel and keep, suspended state |
 | Navigation (UI) | `navigation.feature` | header links between catalogue and account, no account link for new visitors |

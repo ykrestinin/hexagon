@@ -26,8 +26,11 @@
       "style": { "useImportType": "error", "noNonNullAssertion": "error" }
     }
   },
-  "plugins": ["./lint/no-css-locators.grit"],
   "overrides": [
+    {
+      "includes": ["src/**"],
+      "plugins": ["./lint/no-css-locators.grit"]
+    },
     {
       "includes": ["src/tests/**"],
       "plugins": ["./lint/no-raw-locators-in-specs.grit"]

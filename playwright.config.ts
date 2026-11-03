@@ -34,6 +34,8 @@ export default defineConfig({
       grep: /@smoke/,
       use: { ...devices['Desktop Safari'] },
     },
+    // Demo: the same journey with raw locators vs page objects (npm run example:locators)
+    { name: 'examples', testDir: './examples', use: { ...devices['Desktop Chrome'] } },
   ],
   // Starts the mock shop locally; with BASE_URL set the suite runs against that environment instead.
   webServer: E2E_CONFIG.externalBaseUrl

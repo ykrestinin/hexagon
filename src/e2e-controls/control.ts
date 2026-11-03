@@ -33,8 +33,8 @@ export class Control implements ControlParent {
     await expect(this.control).toBeEnabled();
   }
 
-  /** Full-text match; pass a RegExp for a partial or pattern match. */
-  async hasText(expected: string | RegExp): Promise<void> {
+  /** Full-text match; pass a RegExp for a partial match, or an array when the locator matches several elements. */
+  async hasText(expected: string | RegExp | (string | RegExp)[]): Promise<void> {
     await expect(this.control).toHaveText(expected);
   }
 

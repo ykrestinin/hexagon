@@ -19,7 +19,8 @@
     "check:test-cases": "node scripts/check-test-cases.ts --strict",
     "verify": "npm run lint && npm run typecheck && npm run check:test-cases",
     "report": "playwright show-report",
-    "start:sut": "node mock-app/server.mjs"
+    "start:sut": "node mock-app/server.mjs",
+    "example:locators": "playwright test --project=examples"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.4",

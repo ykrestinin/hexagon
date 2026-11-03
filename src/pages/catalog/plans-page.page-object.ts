@@ -5,7 +5,9 @@ import { BasePageObject } from '../base-page-object';
 
 /** Public plan catalogue (`/`). */
 export class PlansPage extends BasePageObject {
+  // getByRole for display elements
   readonly heading = new Text(this.page, { parent: this }, this.page.getByRole('heading', { level: 1 }));
+  readonly planNames = new Text(this.page, { parent: this }, this.page.getByRole('heading', { level: 2 }));
 
   constructor(page: Page) {
     super(page, null, 'plans-page');
@@ -16,6 +18,7 @@ export class PlansPage extends BasePageObject {
     await this.waitForLoad();
   }
 
+  // test-id for interactive elements
   selectPlanLink(planId: PlanId): Hyperlink {
     return new Hyperlink(this.page, { parent: this }, `plan-card-${planId}-select-link`);
   }
